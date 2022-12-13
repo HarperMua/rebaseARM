@@ -16,7 +16,8 @@ address=(PC&0xFFFFFFFC)+imml2
 
 Thumb状态下字符串加载地址识别：THUMB状态下LDR指令的机器码格式如下所示，可以发现LDR指令开头部分为b’01001。
 
-![image](https://user-images.githubusercontent.com/76193596/207274462-837aa750-2679-4537-81b1-104d179d8632.png)
+<img width="292" alt="image" src="https://user-images.githubusercontent.com/76193596/207275976-cd59b92c-2cf7-4096-9eb1-3cff76bf87a8.png">
+
 LDR指令的寻址地址计算如下：
 
 address=(PC&0xFFFFFFFC)+imml8*4
@@ -26,7 +27,9 @@ address=(PC&0xFFFFFFFC)+imml8*4
 字符串地址匹配获取基地址：如果某一个字符串在文件中的偏移量为s_i，加载到内存中位置为p_i，假设装载基址为base，则p_i=base+s_i。首先确定二进制文件装载基址的范围，其最小值为0x1000，因为固件地址一般都是0x1000对齐的，在32位嵌入式系统中装载基址的最大值为0xFFFFFFFF-fileSize，其中fileSize为二进制文件的大小。用集合p中每个元素p_i依次减去集合s中每个元素s_k，如果差值在装载基址的范围内则保存，否则舍弃。然后统计每个差值出现的次数，按出现次数进行降序排序并将结果输出。出现次数最多的元素即为候选装载基址。候选装载基址的实际意义为在这个内存地址处，集合s与集合p中有最多的元素存在着对应关系。
 
 举例说明，如图所示，地址为0x38400000出现的次数远远大于其他地址。因此固件的基地址为0x38400000。
- 
-![image](https://user-images.githubusercontent.com/76193596/207274118-bb50dd40-fc36-48de-aef0-83f0c370451b.png)
 
+<img width="209" alt="image" src="https://user-images.githubusercontent.com/76193596/207276042-f48929db-f697-4caa-8693-17bdb9a0ac63.png">
+
+## 使用
+--
 
