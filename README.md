@@ -2,14 +2,13 @@
 rebase firmware under ARM processor based on [@mncoppola's basefind.py](https://github.com/mncoppola/ws30/blob/master/basefind.py) and [ARM设备固件装载基址定位的研究](http://cdmd.cnki.com.cn/Article/CDMD-10007-1018812112.htm)
 
 ## 原理
-固件文件一般都包含一些字符串（strings）。固件中的字符串存放在内存中，一般通过字符串地址进行访问和操作。字符串地址一般通过LDR指令加载到寄存器中。因此，一个字符串的加载地址一定和一个字符串的内存地址。
+固件文件一般都包含一些字符串（strings）。固件中的字符串存放在内存中，一般通过字符串地址进行访问和操作。字符串地址一般通过LDR指令加载到寄存器中。因此，基地址可以通过字符串的加载地址和字符串的内存地址进行确定。
 
 字符串识别：遍历整个文件，将字符串的起始地址存放在集合s={s_1,s_2,s_3…s_n}中。字符串的识别通过正则表达式模式匹配进行。如下所示，我们定义字符串的字符集为ASCII编码格式的可打印字符，长度大于10。
  ```
-chars = r"A-Za-z0-9/\-:.,_$%'\"()[\]<> "
+ chars = r"A-Za-z0-9/\-:.,_$%'\"()[\]<> "
 min_length = 10
 regexp = "[%s]{%d,}" % (chars, min_length
-
 ```
 ARM状态下字符串加载地址识别：ARM固件一般通过LDR指令或者ADR指令将字符串的地址加载到寄存器中，但是ADR指令为基于PC的相对寻址方式，和固件的装载基址没有关系。因此，只考虑LDR指令加载的字符串地址。ARM状态下LDR指令的机器码格式如下所示，可以发现LDR指令开头部分为0x9FE5。
 
