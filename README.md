@@ -31,5 +31,9 @@ address=(PC&0xFFFFFFFC)+imml8*4
 <img width="209" alt="image" src="https://user-images.githubusercontent.com/76193596/207276042-f48929db-f697-4caa-8693-17bdb9a0ac63.png">
 
 ## 使用
---
+--min_addr和--max_addr定位基地址的范围，合理的缩小两者差可以有效提升运行速度。
+
+--page_size用于保持基地址位对其，通常情况下与0x1000对齐
+
+通过np.save和np.load存储运行的中间结果。对于比较大的固件，可以从某一个中间结果开始继续运行。
 
